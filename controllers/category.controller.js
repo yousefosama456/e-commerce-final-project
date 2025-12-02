@@ -11,10 +11,13 @@ exports.addCategory= catchAsyncUtils(async (req,res)=>{
     res.status(201).json({message:"category name added successfully",  data: newCategory,})
 
 })
+
+
 exports.getCategory= catchAsyncUtils(async (req,res)=>{
     const Categories=await Category.find({isDeleted:false , isActive:true});
     return res.status(200).json(Categories)
 })
+
 
 exports.changeDeleteFlagCategory= catchAsyncUtils(async (req,res)=>{
     category= await Category.findById(req.params.id)

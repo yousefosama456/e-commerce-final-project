@@ -47,10 +47,15 @@ exports.addProduct = catchAsyncUtils(async (req, res) => {
     .status(201)
     .json({ message: "Product created Successfully", data: newProduct });
 });
+
+
+
 exports.getProducts= catchAsyncUtils(async (req,res)=>{
     const products=await Product.find({isDeleted:false , isActive:true});
     return res.status(200).json(products)
 })
+
+
 
 exports.deleteProduct = catchAsyncUtils(async (req, res) => {
   const product = await Product.findOne({ _id: req.params.id });
