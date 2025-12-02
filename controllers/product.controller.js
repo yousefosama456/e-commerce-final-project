@@ -1,6 +1,7 @@
 const catchAsyncUtils = require("../utilities/catch-async.utils");
 const Product = require("../models/product.model");
 const SubCategory = require("../models/sub-category.model");
+const Category = require('../models/category.model')
 const slugify = require("slugify");
 const fs = require("fs");
 const path = require("path");
@@ -15,7 +16,7 @@ const deleteuploadedPhoto = (req) => {
 exports.addProduct = catchAsyncUtils(async (req, res) => {
   const { name, subcategory, price, description, stock } = req.body;
 
-  const subCategory = await SubCategory.findOne({ name: subcategory });
+  const subCategory = await SubCategory.findById( subcategory );
   if (!subCategory) {
     deleteuploadedPhoto(req);
 
@@ -54,6 +55,43 @@ exports.getProducts= catchAsyncUtils(async (req,res)=>{
     const products=await Product.find({isDeleted:false , isActive:true});
     return res.status(200).json(products)
 })
+
+exports.getProductsAdmin= catchAsyncUtils(async (req,res)=>{
+    const products=await Product.find().populate('category','name').populate('subcategory','name');
+    return res.status(200).json(products)
+})
+
+exports.editProduct = catchAsyncUtils(async (req, res) => {
+  const subCategory = await SubCategory.findById(req.body.subcategory).populate("category");
+
+  if (!subCategory) {
+    return res.status(400).json({ message: "Invalid subcategory ID" });
+  }
+  const newSlug = slugify(req.body.name, { lower: true });
+  
+  const updatedProduct = await Product.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: req.body.name,
+      category: subCategory.category._id,
+      subcategory: subCategory._id,
+      price: req.body.price,
+      stock: req.body.stock,
+      isActive: req.body.isActive,
+      isBestSeller: req.body.isBestSeller,
+      isNewArrival: req.body.isNewArrival,
+      isDeleted: req.body.isDeleted,
+      img: req.file.filename || undefined,
+      slug:newSlug
+    },
+    { new: true }
+  );
+
+  res.status(200).json({
+    message: "Product updated successfully",
+    data: updatedProduct
+  });
+});
 
 
 
