@@ -55,6 +55,11 @@ exports.getProducts= catchAsyncUtils(async (req,res)=>{
     const products=await Product.find({isDeleted:false , isActive:true});
     return res.status(200).json(products)
 })
+exports.getProductsBySubCategory= catchAsyncUtils(async (req,res)=>{
+  const subCategoryId=req.params.id;
+    const products=await Product.find({isDeleted:false , isActive:true,subcategory:subCategoryId});
+    return res.status(200).json(products)
+})
 
 exports.getProductsAdmin= catchAsyncUtils(async (req,res)=>{
     const products=await Product.find().populate('category','name').populate('subcategory','name');
