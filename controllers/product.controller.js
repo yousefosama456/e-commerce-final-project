@@ -56,9 +56,8 @@ exports.getProducts= catchAsyncUtils(async (req,res)=>{
     return res.status(200).json(products)
 })
 exports.getProductsBySubCategory= catchAsyncUtils(async (req,res)=>{
-  const subCategoryId=req.params.id;
-    const products=await Product.find({isDeleted:false , isActive:true,subcategory:subCategoryId});
-    return res.status(200).json(products)
+
+    return res.status(200).json(res.paginatedResult)
 })
 exports.getProductDetailsById= catchAsyncUtils(async (req,res)=>{
   const ptoductId=req.params.id;
