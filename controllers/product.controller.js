@@ -55,13 +55,21 @@ exports.getProducts= catchAsyncUtils(async (req,res)=>{
     const products=await Product.find({isDeleted:false , isActive:true});
     return res.status(200).json(products)
 })
+exports.getProductsNewArrival= catchAsyncUtils(async (req,res)=>{
+    const products=await Product.find({isDeleted:false , isActive:true,isNewArrival:true }).limit(10);
+    return res.status(200).json(products)
+})
+exports.getProductsBestSeller= catchAsyncUtils(async (req,res)=>{
+    const products=await Product.find({isDeleted:false , isActive:true, isBestSeller:true }).limit(10);
+    return res.status(200).json(products)
+})
 exports.getProductsBySubCategory= catchAsyncUtils(async (req,res)=>{
 
     return res.status(200).json(res.paginatedResult)
 })
 exports.getProductDetailsById= catchAsyncUtils(async (req,res)=>{
   const ptoductId=req.params.id;
-    const product=await Product.findOne({isDeleted:false , isActive:true,_id:ptoductId});
+    const product=await Product.findOne({isDeleted:false , isActive:true,_id:ptoductId}).populate("category",'name').populate("subcategory",'name');
     return res.status(200).json(product)
 })
 

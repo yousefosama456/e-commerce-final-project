@@ -69,6 +69,11 @@ exports.getAllOrder= catchAsyncUtils(async(req,res)=>{
   const orders= await Order.find() .populate("user", "email").populate('items.product','name');
   return res.status(200).json(orders);
 })
+exports.getUserOrder= catchAsyncUtils(async(req,res)=>{
+  const userId=req.user._id
+  const orders= await Order.find({user:userId}) .populate("user", "email").populate('items.product','name price');
+  return res.status(200).json(orders);
+})
 
 exports.updateOrderStatus =catchAsyncUtils(async(req,res)=>{
   const userId= req.params.id;
