@@ -60,6 +60,12 @@ exports.getProductsBySubCategory= catchAsyncUtils(async (req,res)=>{
     const products=await Product.find({isDeleted:false , isActive:true,subcategory:subCategoryId});
     return res.status(200).json(products)
 })
+exports.getProductDetailsById= catchAsyncUtils(async (req,res)=>{
+  const ptoductId=req.params.id;
+    const product=await Product.findOne({isDeleted:false , isActive:true,_id:ptoductId});
+    return res.status(200).json(product)
+})
+
 
 exports.getProductsAdmin= catchAsyncUtils(async (req,res)=>{
     const products=await Product.find().populate('category','name').populate('subcategory','name');

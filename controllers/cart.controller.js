@@ -13,7 +13,7 @@ exports.addCart = catchAsyncUtils(async (req, res) => {
   );
   if (cart) {
     return res.status(200).json({
-      message: "cart and product is found and qunatity is updated",
+      message: "product is added to cart successfully",
       data: cart,
     });
   }
@@ -22,5 +22,5 @@ exports.addCart = catchAsyncUtils(async (req, res) => {
     { $push: { items: { product: productId, quantity: quantity } } },
     { new: true, upsert: true }
   );
-  res.status(200).json({message:"cart was found only and the new product is added successfully ",data:cart})
+  res.status(200).json({message:"product is added to cart successfully ",data:cart})
 });
