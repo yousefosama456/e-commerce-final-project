@@ -18,11 +18,19 @@ exports.addSubCategory = catchAsyncUtils(async (req, res) => {
     data: newSubCategory,
   });
 });
-
 exports.getSubCategory = catchAsyncUtils(async (req, res) => {
+
   const subCategories = await SubCategory.find({
     isDeleted: false,
     isActive: true,
+  });
+  return res.status(200).json(subCategories);
+});
+exports.getSubCategoriesClient = catchAsyncUtils(async (req, res) => {
+  categoryId=req.params.id
+  const subCategories = await SubCategory.find({
+    isDeleted: false,
+    isActive: true,category: categoryId,
   });
   return res.status(200).json(subCategories);
 });

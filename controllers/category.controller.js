@@ -1,5 +1,5 @@
 const Category = require("../models/category.model");
-const { findOne } = require("../models/user.model");
+
 const catchAsyncUtils = require("../utilities/catch-async.utils");
 
 exports.addCategory = catchAsyncUtils(async (req, res) => {
@@ -12,8 +12,12 @@ exports.addCategory = catchAsyncUtils(async (req, res) => {
     .json({ message: "category name added successfully", data: newCategory });
 });
 
-exports.getCategory = catchAsyncUtils(async (req, res) => {
+exports.getCategories = catchAsyncUtils(async (req, res) => {
   const Categories = await Category.find({ isDeleted: false, isActive: true });
+  return res.status(200).json(Categories);
+});
+exports.getCategoriesAdmin = catchAsyncUtils(async (req, res) => {
+  const Categories = await Category.find();
   return res.status(200).json(Categories);
 });
 
