@@ -26,7 +26,6 @@ exports.getAllTestimonies = catchAsyncUtils(async (req, res) => {
 
 exports.approveTestimony = catchAsyncUtils(async (req, res) => {
   const { id } = req.params;
-
   const testimony = await Testimony.findByIdAndUpdate(
     id,
     { isApproved: true },
