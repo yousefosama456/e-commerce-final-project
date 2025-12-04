@@ -71,7 +71,7 @@ exports.getAllOrder= catchAsyncUtils(async(req,res)=>{
 })
 exports.getUserOrder= catchAsyncUtils(async(req,res)=>{
   const userId=req.user._id
-  const orders= await Order.find({user:userId}) .populate("user", "email").populate('items.product','name price');
+  const orders= await Order.find({user:userId}) .populate("user", "email").populate('items.product','name price').sort({ createdAt: -1 });
   return res.status(200).json(orders);
 })
 

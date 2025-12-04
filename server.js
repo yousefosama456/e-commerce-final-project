@@ -23,6 +23,9 @@ app.use('/product',require('./routes/product.route'))
 app.use('/cart',require('./routes/cart.route'))
 app.use('/order',require('./routes/order.route'))
 app.use('/user',require('./routes/user.route'))
+app.use('/testimony',require('./routes/testimony.route'))
+app.use('/report',require('./routes/report.routes'))
+
 app.use('/',(req,res,next)=>{
   next(new AppError (`can't find ${req.originalUrl} on this server`,404))
 })
